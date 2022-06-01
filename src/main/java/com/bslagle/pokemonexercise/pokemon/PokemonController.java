@@ -74,7 +74,7 @@ public class PokemonController {
 
     private Map<String, Iterable<Pokemon>> createHashPlural(Iterable<Pokemon> pokemons) {
         Map<String, Iterable<Pokemon>> response = new HashMap<String, Iterable<Pokemon>>();
-        response.put("someResources", pokemons);
+        response.put("pokemons", pokemons);
 
         return response;
     }
