@@ -21,60 +21,60 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/some-resources")
-public class SomeResourceController {
+@RequestMapping("api/pokemons")
+public class PokemonController {
     @Autowired
-    private SomeResourceService someResourceService;
+    private PokemonService pokemonService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Iterable<SomeResource>> list() {
-        Iterable<SomeResource> someResources = someResourceService.list();
-        return createHashPlural(someResources);
+    public Map<String, Iterable<Pokemon>> list() {
+        Iterable<Pokemon> pokemons = pokemonService.list();
+        return createHashPlural(pokemons);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, SomeResource> read(@PathVariable Long id) {
-        SomeResource someResource = someResourceService
+    public Map<String, Pokemon> read(@PathVariable Long id) {
+        Pokemon pokemon = pokemonService
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No resource with that ID"));
-        return createHashSingular(someResource);
+                .orElseThrow(() -> new ResourceNotFoundException("No pokemon with that ID"));
+        return createHashSingular(pokemon);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, SomeResource> create(@Validated @RequestBody SomeResource someResource) {
-        SomeResource createdResource = someResourceService.create(someResource);
-        return createHashSingular(createdResource);
+    public Map<String, Pokemon> create(@Validated @RequestBody Pokemon pokemon) {
+        Pokemon createdPokemon = pokemonService.create(pokemon);
+        return createHashSingular(createdPokemon);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, SomeResource> update(@RequestBody SomeResource someResource, @PathVariable Long id) {
-        SomeResource updatedResource = someResourceService
-                .update(someResource)
+    public Map<String, Pokemon> update(@RequestBody Pokemon pokemon, @PathVariable Long id) {
+        Pokemon updatedPokemon = pokemonService
+                .update(pokemon)
                 .orElseThrow(() -> new ResourceNotFoundException("No resource with that ID"));
 
-        return createHashSingular(updatedResource);
+        return createHashSingular(updatedPokemon);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        someResourceService.deleteById(id);
+        pokemonService.deleteById(id);
     }
 
-    private Map<String, SomeResource> createHashSingular(SomeResource someResource) {
-        Map<String, SomeResource> response = new HashMap<String, SomeResource>();
-        response.put("someResource", someResource);
+    private Map<String, Pokemon> createHashSingular(Pokemon pokemon) {
+        Map<String, Pokemon> response = new HashMap<String, Pokemon>();
+        response.put("pokemon", pokemon);
 
         return response;
     }
 
-    private Map<String, Iterable<SomeResource>> createHashPlural(Iterable<SomeResource> someResources) {
-        Map<String, Iterable<SomeResource>> response = new HashMap<String, Iterable<SomeResource>>();
-        response.put("someResources", someResources);
+    private Map<String, Iterable<Pokemon>> createHashPlural(Iterable<Pokemon> pokemons) {
+        Map<String, Iterable<Pokemon>> response = new HashMap<String, Iterable<Pokemon>>();
+        response.put("someResources", pokemons);
 
         return response;
     }
